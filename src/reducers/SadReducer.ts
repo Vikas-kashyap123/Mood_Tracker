@@ -1,33 +1,30 @@
+import produce from "immer";
 import { AnyAction } from "redux";
-import { CLEAR_BUTTON_CLICKED, SAD_BUTTON_CLICKED } from "../actions";
+import {
+  CLEAR_BUTTON_CLICKED,
+  SAD_BUTTON_CLICKED,
+} from "../actions/moodActions";
 import { Moment } from "../store";
 
-export type SadState = {
+export type State = {
   sadMoments: Moment[];
 };
 
-export const initialSadState: SadState = {
+export const initialState: State = {
   sadMoments: [],
 };
 
-function SadReducer(currentSadState: SadState, action: AnyAction) {
+function SadReducer(state = initialState, action: AnyAction): State {
   switch (action.type) {
     case SAD_BUTTON_CLICKED:
-      return {
-        ...currentSadState,
-        sadMoments: [
-          ...currentSadState.sadMoments,
-          { intensity: action.payload.count, when: action.payload.when },
-        ],
-      };
+      return produce(state, (draft) => {
+        draft.sadMoments.push(action.payload);
+      });
     case CLEAR_BUTTON_CLICKED:
-      return {
-        ...currentSadState,
-        sadMoments: [],
-      };
+      return { ...state, sadMoments: [] };
 
     default:
-      return currentSadState;
+      return state;
   }
 }
 

@@ -1,33 +1,21 @@
-import { AnyAction, createStore } from "redux";
-import { CLEAR_BUTTON_CLICKED } from "./actions";
-import HappyReducer, {
-  HappyState,
-  initialHappyState,
-} from "./reducers/HappyReducer";
-import SadReducer, { initialSadState, SadState } from "./reducers/SadReducer";
+import { combineReducers, createStore } from "redux";
+import HappyReducer from "./reducers/HappyReducer";
+import productsReducer from "./reducers/products";
+import SadReducer from "./reducers/SadReducer";
 
 export type Moment = {
   intensity: number;
   when: Date;
 };
 
-export type State = {
-  sad: SadState;
-  happy: HappyState;
-};
+const reducer = combineReducers({
+  sad: SadReducer,
+  happy: HappyReducer,
+  products: productsReducer,
+  loading: productsReducer,
+});
 
-const initialState: State = {
-  sad: initialSadState,
-  happy: initialHappyState,
-};
-
-// currentState should be non-Mutating
-const reducer = (currentState = initialState, action: AnyAction): State => {
-  return {
-    sad: SadReducer(currentState.sad, action),
-    happy: HappyReducer(currentState.happy, action),
-  };
-};
+export type State = ReturnType<typeof reducer>;
 
 const store = createStore(
   reducer,
@@ -59,3 +47,12 @@ export default store;
 //   default:
 //     return { ...currentState };
 // }
+
+// former style for making parent reducer
+// currentState should be non-Mutating
+// const reducer = (currentState = initialState, action: AnyAction): State => {
+//   return {
+//     sad: SadReducer(currentState.sad, action),
+//     happy: HappyReducer(currentState.happy, action),
+//   };
+// };

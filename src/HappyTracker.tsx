@@ -1,10 +1,11 @@
 import { FC, memo } from "react";
-import { happyMomentsSelector } from "./selectors";
+import { happyMomentsSelector } from "./selectors/moodSelectors";
 import { useSelector } from "react-redux";
 
 type HappyTrackerProps = {};
 
 const HappyTracker: FC<HappyTrackerProps> = (props) => {
+  console.log("happyTracker Refreshed");
   const happyMoments = useSelector(happyMomentsSelector);
   return (
     <div className="bg-green-500 text-wrap font-bold rounded-md p-2 m-4 text-white w-full h-full ">
@@ -12,7 +13,7 @@ const HappyTracker: FC<HappyTrackerProps> = (props) => {
         <div className="text-gray-500"> Add happiness...</div>
       )}
       {happyMoments.map((m) => (
-        <div key={m.intensity}>
+        <div key={m.when}>
           <h1>Intensity : {m.intensity}</h1>
           <h1>
             Time :{" "}

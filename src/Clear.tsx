@@ -1,6 +1,6 @@
 import { FC, memo } from "react";
 import { useDispatch } from "react-redux";
-import { clearButtonClicked } from "./actions";
+import { clearButtonClicked } from "./actions/moodActions";
 import Button from "./Button";
 
 type ClearProps = {};
